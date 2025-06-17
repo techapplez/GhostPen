@@ -1,35 +1,32 @@
-use std::io;
 use std::time::Duration;
 use colored::Colorize;
-use crossterm::{event, execute};
-use crossterm::event::{DisableMouseCapture, EnableMouseCapture, Event, KeyCode};
-use crossterm::terminal::{disable_raw_mode, enable_raw_mode, LeaveAlternateScreen};
+use crossterm::event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode};
+use crossterm::terminal::{EnterAlternateScreen, LeaveAlternateScreen};
 use ratatui::backend::CrosstermBackend;
-use crossterm::terminal::EnterAlternateScreen;
 use ratatui::layout::Margin;
-use ratatui::prelude::{Modifier, Style};
+use ratatui::prelude::{Color, Modifier, Style};
 use ratatui::Terminal;
 use ratatui::widgets::{Block, Borders, List, ListItem};
 
-pub(crate) fn select_mode() {
-    println!("{}", "THIS TOOL IS ONLY FOR PENETRATION TESTING AND NOT FOR ILLEGAL PURPOSES".red().bold().underline());
-    println!("{}", "ABUSE IS GOING TO BE PUNISHED!!! IDK BY WHO...".red().bold().underline());
-    println!("{}", "Available modes:".green().bold());
-
+pub(crate) fn select_mode() -> &'static str {
     let modes = vec![
         "ARP Spoof",
         "DNS Spoof",
         "DHCP Spoof",
-        "DoS Attack"
+        "DoS Attack",
+        "Port Scan"
     ];
     let mut selected_index = 0;
+    let mut list_state = ratatui::widgets::ListState::default();
+    list_state.select(Some(selected_index));
 
-    enable_raw_mode().unwrap();
-    let mut stdout = io::stdout();
-    execute!(stdout, EnterAlternateScreen, EnableMouseCapture).unwrap();
+    crossterm::terminal::enable_raw_mode().unwrap();
+    let mut stdout = std::io::stdout();
+    crossterm::execute!(stdout, EnterAlternateScreen, EnableMouseCapture).unwrap();
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend).unwrap();
 
+    let selected_mode;
     loop {
         terminal.draw(|f| {
             let size = f.area();
@@ -43,36 +40,55 @@ pub(crate) fn select_mode() {
                 .enumerate()
                 .map(|(i, mode)| {
                     let content = if i == selected_index {
-                        format!("> {}", mode).green().bold().to_string()
+                        format!("> {}", mode)
                     } else {
-                        format!("  {}", mode).red().bold().to_string()
+                        format!("  {}", mode)
                     };
-                    ListItem::new(content)
+                    let style = if i == selected_index {
+                        Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)
+                    } else {
+                        Style::default().fg(Color::Red)
+                    };
+                    ListItem::new(content).style(style)
                 })
                 .collect();
 
             let list = List::new(list_items)
-                .block(Block::default().title("Available Modes").borders(Borders::NONE))
-                .highlight_style(Style::default().add_modifier(Modifier::BOLD));
-
-            f.render_widget(list, size.inner(Margin { vertical: 1, horizontal: 1 }));
+                .block(Block::default().title("Available Modes").borders(Borders::NONE));
+            let area = size.inner(Margin { vertical: 1, horizontal: 1 });
+            f.render_stateful_widget(list, area, &mut list_state);
         }).unwrap();
 
         if event::poll(Duration::from_millis(100)).unwrap() {
             if let Event::Key(key) = event::read().unwrap() {
                 match key.code {
-                    KeyCode::Up => selected_index = selected_index.saturating_sub(1),
-                    KeyCode::Down => selected_index = (selected_index + 1).min(modes.len() - 1),
+                    KeyCode::Up => {
+                        if selected_index > 0 {
+                            selected_index -= 1;
+                            list_state.select(Some(selected_index));
+                        }
+                    }
+                    KeyCode::Down => {
+                        if selected_index < modes.len() - 1 {
+                            selected_index += 1;
+                            list_state.select(Some(selected_index));
+                        }
+                    }
                     KeyCode::Enter => {
-                        disable_raw_mode().unwrap();
-                        execute!(terminal.backend_mut(), LeaveAlternateScreen, DisableMouseCapture).unwrap();
+                        crossterm::terminal::disable_raw_mode().unwrap();
+                        crossterm::execute!(
+                            terminal.backend_mut(),
+                            LeaveAlternateScreen,
+                            DisableMouseCapture
+                        ).unwrap();
                         terminal.show_cursor().unwrap();
-                        println!("{}", format!("{} mode selected.", modes[selected_index]).green().bold());
-                        return;
+                        selected_mode = modes[selected_index];
+                        break;
                     }
                     _ => {}
                 }
             }
         }
     }
+    selected_mode
 }
