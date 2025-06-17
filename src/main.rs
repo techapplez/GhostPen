@@ -1,5 +1,11 @@
 mod mode;
 mod mac;
+
+//Hallo von Emil :}
+//Hinterlasse hier eine Antwort: 
+
+//moin beep
+
 use mode::select_mode;
 use colored::Colorize;
 use pnet::datalink::{
@@ -22,7 +28,7 @@ use pnet::packet::{
 };
 use std::io::{self, Write};
 use std::net::{
-    Ipv4Addr, 
+    Ipv4Addr,
     Ipv6Addr
 };
 use myrustscan::{
@@ -106,7 +112,7 @@ fn main() {
 
     if selected_mode == "DoS Attack" {
         loop {
-            
+        
         }
     }
     if selected_mode == "Port Scan" {
