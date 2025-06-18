@@ -1,12 +1,12 @@
-use std::time::Duration;
 use colored::Colorize;
 use crossterm::event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode};
 use crossterm::terminal::{EnterAlternateScreen, LeaveAlternateScreen};
+use ratatui::Terminal;
 use ratatui::backend::CrosstermBackend;
 use ratatui::layout::Margin;
 use ratatui::prelude::{Color, Modifier, Style};
-use ratatui::Terminal;
 use ratatui::widgets::{Block, Borders, List, ListItem};
+use std::time::Duration;
 
 pub(crate) fn select_mode() -> &'static str {
     let modes = vec![
@@ -14,7 +14,7 @@ pub(crate) fn select_mode() -> &'static str {
         "DNS Spoof",
         "DHCP Spoof",
         "DoS Attack",
-        "Port Scan"
+        "Port Scan",
     ];
     let mut selected_index = 0;
     let mut list_state = ratatui::widgets::ListState::default();
@@ -28,36 +28,45 @@ pub(crate) fn select_mode() -> &'static str {
 
     let selected_mode;
     loop {
-        terminal.draw(|f| {
-            let size = f.area();
-            let block = Block::default()
-                .title("etterscap - Select Mode")
-                .borders(Borders::ALL);
-            f.render_widget(block, size);
+        terminal
+            .draw(|f| {
+                let size = f.area();
+                let block = Block::default()
+                    .title("etterscap - Select Mode")
+                    .borders(Borders::ALL);
+                f.render_widget(block, size);
+                let list_items: Vec<ListItem> = modes
+                    .iter()
+                    .enumerate()
+                    .map(|(i, mode)| {
+                        let content = if i == selected_index {
+                            format!("> {}", mode)
+                        } else {
+                            format!("  {}", mode)
+                        };
+                        let style = if i == selected_index {
+                            Style::default()
+                                .fg(Color::Green)
+                                .add_modifier(Modifier::BOLD)
+                        } else {
+                            Style::default().fg(Color::Red)
+                        };
+                        ListItem::new(content).style(style)
+                    })
+                    .collect();
 
-            let list_items: Vec<ListItem> = modes
-                .iter()
-                .enumerate()
-                .map(|(i, mode)| {
-                    let content = if i == selected_index {
-                        format!("> {}", mode)
-                    } else {
-                        format!("  {}", mode)
-                    };
-                    let style = if i == selected_index {
-                        Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)
-                    } else {
-                        Style::default().fg(Color::Red)
-                    };
-                    ListItem::new(content).style(style)
-                })
-                .collect();
-
-            let list = List::new(list_items)
-                .block(Block::default().title("Available Modes").borders(Borders::NONE));
-            let area = size.inner(Margin { vertical: 1, horizontal: 1 });
-            f.render_stateful_widget(list, area, &mut list_state);
-        }).unwrap();
+                let list = List::new(list_items).block(
+                    Block::default()
+                        .title("Available Modes")
+                        .borders(Borders::NONE),
+                );
+                let area = size.inner(Margin {
+                    vertical: 1,
+                    horizontal: 1,
+                });
+                f.render_stateful_widget(list, area, &mut list_state);
+            })
+            .unwrap();
 
         if event::poll(Duration::from_millis(100)).unwrap() {
             if let Event::Key(key) = event::read().unwrap() {
@@ -80,7 +89,8 @@ pub(crate) fn select_mode() -> &'static str {
                             terminal.backend_mut(),
                             LeaveAlternateScreen,
                             DisableMouseCapture
-                        ).unwrap();
+                        )
+                        .unwrap();
                         terminal.show_cursor().unwrap();
                         selected_mode = modes[selected_index];
                         break;

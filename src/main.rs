@@ -1,53 +1,38 @@
-mod mode;
 mod mac;
+mod mode;
 
 //Hallo von Emil :}
-//Hinterlasse hier eine Antwort: 
+//Hinterlasse hier eine Antwort:
 
 //moin beep
 
-use mode::select_mode;
 use colored::Colorize;
-use pnet::datalink::{
-    self,
-    Channel::Ethernet,
-    MacAddr
-};
-use pnet::packet::arp::{
-    ArpHardwareTypes,
-    ArpOperations,
-    MutableArpPacket,
-};
-use pnet::packet::ethernet::{
-    EtherTypes,
-    MutableEthernetPacket
-};
-use pnet::packet::{
-    MutablePacket,
-    Packet
-};
-use std::io::{self, Write};
-use std::net::{
-    Ipv4Addr,
-    Ipv6Addr
-};
+use futures::stream::{FuturesUnordered, StreamExt};
+use get_if_addrs::Ifv4Addr;
+use get_if_addrs::get_if_addrs;
+use getifaddrs::getifaddrs;
+use ipnet::Ipv4Net;
+use mode::select_mode;
 use myrustscan::{
-    input::{
-        PortRange,
-        ScanOrder
-    },
+    input::{PortRange, ScanOrder},
     port_strategy::PortStrategy,
     scanner::Scanner,
 };
-use get_if_addrs::get_if_addrs;
-use get_if_addrs::Ifv4Addr;
-use getifaddrs::getifaddrs;
-use ipnet::Ipv4Net;
+use pnet::datalink::{self, Channel::Ethernet, MacAddr};
+use pnet::packet::arp::{ArpHardwareTypes, ArpOperations, MutableArpPacket};
+use pnet::packet::ethernet::{EtherTypes, MutableEthernetPacket};
+use pnet::packet::{MutablePacket, Packet};
+use std::io::{self, Write};
 use std::net::IpAddr;
+use std::net::{Ipv4Addr, Ipv6Addr};
 use tokio_ping::Pinger;
-use futures::stream::{FuturesUnordered, StreamExt};
 fn main() {
-    println!("{}", "Welcome to GhostPen, your pentesting toolkit written in rust.".green().bold());
+    println!(
+        "{}",
+        "Welcome to GhostPen, your pentesting toolkit written in rust."
+            .green()
+            .bold()
+    );
     let selected_mode = select_mode();
 
     let warnings = [
@@ -59,7 +44,12 @@ fn main() {
     }
     println!("You have selected {}.", selected_mode.green().bold());
 
-    println!("{}" ,"------------------------\n=======next step:=======\n------------------------\n".yellow().bold());
+    println!(
+        "{}",
+        "------------------------\n=======next step:=======\n------------------------\n"
+            .yellow()
+            .bold()
+    );
     println!("{}", "Available interfaces:".green().bold());
 
     for iface in datalink::interfaces() {
@@ -85,13 +75,27 @@ fn main() {
     let gateway_ip = gateway_ip.trim();
     let gateway_ip_addr: Ipv4Addr = gateway_ip.parse().unwrap();
 
-    let attacker_mac = mac_address::mac_address_by_name(iface).unwrap().unwrap().bytes();
-    let attacker_mac = MacAddr::new(attacker_mac[0], attacker_mac[1], attacker_mac[2], attacker_mac[3], attacker_mac[4], attacker_mac[5]);
+    let attacker_mac = mac_address::mac_address_by_name(iface)
+        .unwrap()
+        .unwrap()
+        .bytes();
+    let attacker_mac = MacAddr::new(
+        attacker_mac[0],
+        attacker_mac[1],
+        attacker_mac[2],
+        attacker_mac[3],
+        attacker_mac[4],
+        attacker_mac[5],
+    );
 
-    let victim_mac = mac::find_mac(iface, victim_ip, "Victim").expect("Victim MAC not found. Is the host up?");
+    let victim_mac =
+        mac::find_mac(iface, victim_ip, "Victim").expect("Victim MAC not found. Is the host up?");
 
     let interfaces = datalink::interfaces();
-    let interface = interfaces.into_iter().find(|i| i.name == iface).expect("Interface not found");
+    let interface = interfaces
+        .into_iter()
+        .find(|i| i.name == iface)
+        .expect("Interface not found");
     let (mut tx, _) = match datalink::channel(&interface, Default::default()) {
         Ok(Ethernet(tx, _)) => (tx, ()),
         Ok(_) => panic!("Unhandled channel type"),
@@ -111,13 +115,10 @@ fn main() {
     }
 
     if selected_mode == "DoS Attack" {
-        loop {
-        
-        }
+        loop {}
     }
     if selected_mode == "Port Scan" {
-        loop {
-        }
+        loop {}
     }
 
     if selected_mode == "ARP Spoof" {

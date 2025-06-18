@@ -1,11 +1,7 @@
+use pnet::datalink::{self, Channel::Ethernet, MacAddr};
 use std::fs;
 use std::process::Command;
 use std::str::FromStr;
-use pnet::datalink::{
-    self,
-    Channel::Ethernet,
-    MacAddr
-};
 
 pub(crate) fn find_mac(interface: &str, ip: &str, label: &str) -> Option<MacAddr> {
     let output = Command::new("arp-scan")
