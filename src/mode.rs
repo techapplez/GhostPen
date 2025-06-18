@@ -1,4 +1,3 @@
-use colored::Colorize;
 use crossterm::event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode};
 use crossterm::terminal::{EnterAlternateScreen, LeaveAlternateScreen};
 use ratatui::Terminal;
@@ -83,6 +82,7 @@ pub(crate) fn select_mode() -> &'static str {
                             list_state.select(Some(selected_index));
                         }
                     }
+
                     KeyCode::Enter => {
                         crossterm::terminal::disable_raw_mode().unwrap();
                         crossterm::execute!(

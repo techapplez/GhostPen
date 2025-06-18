@@ -1,4 +1,4 @@
-use pnet::datalink::{self, Channel::Ethernet, MacAddr};
+use pnet::datalink::MacAddr;
 use std::fs;
 use std::process::Command;
 use std::str::FromStr;

