@@ -3,27 +3,15 @@ mod mode;
 mod portscan;
 
 use colored::Colorize;
-use futures::stream::{FuturesUnordered, StreamExt};
-use get_if_addrs::Ifv4Addr;
-use get_if_addrs::get_if_addrs;
-use getifaddrs::getifaddrs;
-use ipnet::Ipv4Net;
 use mode::select_mode;
-use myrustscan::{
-    input::{PortRange, ScanOrder},
-    port_strategy::PortStrategy,
-    scanner::Scanner,
-};
 use pnet::datalink::{self, Channel::Ethernet, MacAddr};
 use pnet::packet::arp::{ArpHardwareTypes, ArpOperations, MutableArpPacket};
 use pnet::packet::ethernet::{EtherTypes, MutableEthernetPacket};
 use pnet::packet::{MutablePacket, Packet};
 use std::io::{self, Write};
-use std::net::IpAddr;
-use std::net::{Ipv4Addr, Ipv6Addr};
+use std::net::Ipv4Addr;
 use std::thread;
 use std::time::Duration;
-use tokio_ping::Pinger;
 
 fn get_interface_input() -> String {
     println!("{}", "Available interfaces:".green().bold());
@@ -81,10 +69,10 @@ fn main() {
             println!("DNS Spoof mode selected - not implemented yet");
         }
         "DHCP Spoof" => {
-            println!("DHCP Spoof mode selected - not implemented yet");
-        }
+        todo!()       
+    }
         "DoS Attack" => {
-            println!("DoS Attack mode selected - not implemented yet");
+            
         }
         "ARP Spoof" => {
             let iface = get_interface_input();

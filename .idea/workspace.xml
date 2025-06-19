@@ -12,13 +12,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52b42cc1-12fa-4f39-9c51-cef2cafc695c" name="Changes" comment="mrrrrrow">
-      <change afterPath="$PROJECT_DIR$/src/portscan.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mac.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/mac.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mode.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/mode.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/portscan.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/portscan.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +56,7 @@
     &quot;RunOnceActivity.rust.reset.selective.auto.import&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/techapplez/RustroverProjects/etterscap&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -68,7 +65,7 @@
     &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
     &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
     &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;language.rust.cargo.check&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -78,7 +75,7 @@
       <window_info id="Merge Requests" />
       <window_info id="Backup and Sync History" />
       <window_info id="Commit_Guest" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.50074625" visible="true" weight="0.11388287" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.50074625" visible="true" weight="0.11276041" />
       <window_info id="Commit" order="1" weight="0.32991588" />
       <window_info id="Structure" order="2" sideWeight="0.49925375" side_tool="true" weight="0.29153523" />
       <window_info id="Pull Requests" order="3" weight="0.32991588" />
@@ -91,22 +88,23 @@
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" weight="0.3302073" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.5847107" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3773148" />
       <window_info anchor="bottom" id="Services" order="4" weight="0.3302073" />
       <window_info anchor="bottom" id="Build" order="5" weight="0.61620367" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3302073" />
       <window_info anchor="right" id="PR AI Assistant" />
       <window_info anchor="right" id="documentation.v2" side_tool="true" />
-      <window_info anchor="right" id="Coverage" side_tool="true" />
+      <window_info anchor="right" id="CodeTogether" />
       <window_info anchor="right" id="ElectroJunToolWindow" />
       <window_info anchor="right" content_ui="combo" id="Notifications" order="0" weight="0.25" />
-      <window_info active="true" anchor="right" id="AIAssistant" order="1" visible="true" weight="0.33080262" />
+      <window_info anchor="right" id="AIAssistant" order="1" weight="0.33095992" />
       <window_info anchor="right" id="Database" order="2" weight="0.25" />
       <window_info anchor="right" id="Gradle" order="3" weight="0.25" />
       <window_info anchor="right" id="Maven" order="4" weight="0.25" />
       <window_info anchor="right" id="Cargo" order="5" weight="0.2" />
       <window_info anchor="right" id="RustCargo" order="6" weight="0.2" />
       <window_info anchor="right" id="StudioBot" order="7" weight="0.32991588" />
+      <window_info anchor="right" id="Coverage" order="8" side_tool="true" weight="0.33078545" />
     </layout>
   </component>
   <component name="RunManager">
@@ -145,7 +143,12 @@
       <workItem from="1750182705241" duration="1955000" />
       <workItem from="1750248802566" duration="1185000" />
       <workItem from="1750250189792" duration="4662000" />
-      <workItem from="1750262129135" duration="3044000" />
+      <workItem from="1750262129135" duration="4926000" />
+      <workItem from="1750267114854" duration="137000" />
+      <workItem from="1750267362241" duration="22000" />
+      <workItem from="1750267391192" duration="114000" />
+      <workItem from="1750267512602" duration="2627000" />
+      <workItem from="1750315811669" duration="5330000" />
     </task>
     <task id="LOCAL-00001" summary="mrrrrrow">
       <option name="closed" value="true" />
@@ -163,7 +166,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750248970386</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="mrrrrrow">
+      <option name="closed" value="true" />
+      <created>1750265387605</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1750265387605</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -181,9 +192,9 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="mrrrrrow" />
     <MESSAGE value="mrrrrrow i fixxd sum fmting issus lol" />
-    <option name="LAST_COMMIT_MESSAGE" value="mrrrrrow i fixxd sum fmting issus lol" />
+    <MESSAGE value="mrrrrrow" />
+    <option name="LAST_COMMIT_MESSAGE" value="mrrrrrow" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

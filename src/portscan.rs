@@ -97,6 +97,7 @@ pub fn scan(ip: IpAddr) {
                 443 => Some("https".into()),
                 3306 => Some("mysql".into()),
                 3389 => Some("rdp".into()),
+                8123 => Some("Home Assistant".into()),
                 _ => None,
             };
             let vulnerability_score = match port_num {
@@ -104,6 +105,7 @@ pub fn scan(ip: IpAddr) {
                 3306 => 7,
                 3389 => 4,
                 80 => 2,
+                8123 => 1,
                 _ => 0,
             };
             findings.push(PortFinding {
