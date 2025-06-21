@@ -12,8 +12,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52b42cc1-12fa-4f39-9c51-cef2cafc695c" name="Changes" comment="mrrrrrow">
+      <change afterPath="$PROJECT_DIR$/src/blackholespoof.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dns_spoof.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dos_attack.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mode.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/mode.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/portscan.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/portscan.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,7 +39,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Cargo.toml" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Cargo.toml" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="2FEpRbyx" />
@@ -48,6 +54,8 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Cargo.Expand etterscap::dns_spoof.executor&quot;: &quot;Run&quot;,
+    &quot;Cargo.Install cargo-expand.executor&quot;: &quot;Run&quot;,
     &quot;Cargo.Run.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -64,8 +72,9 @@
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
     &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
+    &quot;org.rust.disableDetachedFileInspection/home/techapplez/RustroverProjects/etterscap/src/mode.rs&quot;: &quot;true&quot;,
     &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -75,7 +84,7 @@
       <window_info id="Merge Requests" />
       <window_info id="Backup and Sync History" />
       <window_info id="Commit_Guest" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.50074625" visible="true" weight="0.11276041" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.50074625" visible="true" weight="0.12890625" />
       <window_info id="Commit" order="1" weight="0.32991588" />
       <window_info id="Structure" order="2" sideWeight="0.49925375" side_tool="true" weight="0.29153523" />
       <window_info id="Pull Requests" order="3" weight="0.32991588" />
@@ -83,31 +92,48 @@
       <window_info anchor="bottom" id="TypeScript" />
       <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="File Transfer" />
-      <window_info anchor="bottom" id="Run" />
       <window_info anchor="bottom" id="Find" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
-      <window_info anchor="bottom" id="Problems View" order="2" weight="0.3302073" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3773148" />
+      <window_info anchor="bottom" id="Problems View" order="2" weight="0.8005952" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.3300926" />
       <window_info anchor="bottom" id="Services" order="4" weight="0.3302073" />
-      <window_info anchor="bottom" id="Build" order="5" weight="0.61620367" />
+      <window_info anchor="bottom" id="Build" order="5" weight="0.35694444" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3302073" />
+      <window_info anchor="bottom" id="Run" order="7" weight="0.37720156" />
       <window_info anchor="right" id="PR AI Assistant" />
       <window_info anchor="right" id="documentation.v2" side_tool="true" />
       <window_info anchor="right" id="CodeTogether" />
       <window_info anchor="right" id="ElectroJunToolWindow" />
       <window_info anchor="right" content_ui="combo" id="Notifications" order="0" weight="0.25" />
-      <window_info anchor="right" id="AIAssistant" order="1" weight="0.33095992" />
+      <window_info anchor="right" id="AIAssistant" order="1" weight="0.32994792" />
       <window_info anchor="right" id="Database" order="2" weight="0.25" />
       <window_info anchor="right" id="Gradle" order="3" weight="0.25" />
       <window_info anchor="right" id="Maven" order="4" weight="0.25" />
       <window_info anchor="right" id="Cargo" order="5" weight="0.2" />
       <window_info anchor="right" id="RustCargo" order="6" weight="0.2" />
-      <window_info anchor="right" id="StudioBot" order="7" weight="0.32991588" />
+      <window_info anchor="right" id="StudioBot" order="7" weight="0.32994792" />
       <window_info anchor="right" id="Coverage" order="8" side_tool="true" weight="0.33078545" />
     </layout>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Cargo.Expand etterscap::dns_spoof">
+    <configuration name="Expand etterscap::dns_spoof" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="expand --bin etterscap --color=always --theme=Dracula --tests dns_spoof" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
       <option name="command" value="run --package etterscap --bin etterscap" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
@@ -125,6 +151,11 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Cargo.Expand etterscap::dns_spoof" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="/usr/bin" />
@@ -148,7 +179,16 @@
       <workItem from="1750267362241" duration="22000" />
       <workItem from="1750267391192" duration="114000" />
       <workItem from="1750267512602" duration="2627000" />
-      <workItem from="1750315811669" duration="5330000" />
+      <workItem from="1750315811669" duration="8110000" />
+      <workItem from="1750336186087" duration="1263000" />
+      <workItem from="1750341199740" duration="11061000" />
+      <workItem from="1750352685258" duration="4591000" />
+      <workItem from="1750430747456" duration="755000" />
+      <workItem from="1750435711501" duration="939000" />
+      <workItem from="1750436681217" duration="1168000" />
+      <workItem from="1750437857248" duration="2445000" />
+      <workItem from="1750502642100" duration="25000" />
+      <workItem from="1750511056459" duration="2119000" />
     </task>
     <task id="LOCAL-00001" summary="mrrrrrow">
       <option name="closed" value="true" />

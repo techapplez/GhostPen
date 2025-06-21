@@ -1,11 +1,11 @@
+use crossterm::style::Stylize;
 use myrustscan::{
     input::{PortRange, ScanOrder},
     port_strategy::PortStrategy,
     scanner::Scanner,
 };
-use std::net::{IpAddr, SocketAddr};
+use std::net::IpAddr;
 use std::time::{Duration, SystemTime};
-use crossterm::style::Stylize;
 
 struct PortFinding {
     port: u16,
@@ -27,7 +27,11 @@ fn port_risk_weight(port: u16) -> u8 {
 
 fn calculate_decay_factor(found_at: SystemTime) -> f32 {
     let now = SystemTime::now();
-    let age = now.duration_since(found_at).unwrap_or(Duration::ZERO).as_secs() / 86400;
+    let age = now
+        .duration_since(found_at)
+        .unwrap_or(Duration::ZERO)
+        .as_secs()
+        / 86400;
     let decay = 1.0 - (age as f32 / 60.0);
     decay.max(0.1)
 }
@@ -41,7 +45,9 @@ fn score_ports(findings: &[PortFinding]) -> (u8, &'static str) {
         total_risk += (weight + vuln) * decay;
     }
     let mut score = 100.0 - total_risk;
-    if score < 0.0 { score = 0.0; }
+    if score < 0.0 {
+        score = 0.0;
+    }
     let rating = match score as u8 {
         0..=19 => "Critical risk: Immediate action required.",
         20..=49 => "High risk: Review and mitigate vulnerabilities.",
@@ -76,7 +82,10 @@ pub fn scan(ip: IpAddr) {
             1,
             false,
             PortStrategy::pick(
-                &Some(PortRange { start: 1, end: 65535 }),
+                &Some(PortRange {
+                    start: 1,
+                    end: 65535,
+                }),
                 None,
                 ScanOrder::Serial,
             ),
@@ -119,7 +128,7 @@ pub fn scan(ip: IpAddr) {
         let (score, rating) = score_ports(&findings);
         if score <= 50 {
             println!("Security Score: {}/100", score.to_string().green().bold());
-        } else if score >= 50 && score <= 75 { 
+        } else if score >= 50 && score <= 75 {
             println!("Security Score: {}/100", score.to_string().yellow().bold());
         } else {
             println!("Security Score: {}/100", score.to_string().red().bold());

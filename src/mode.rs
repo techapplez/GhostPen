@@ -14,6 +14,7 @@ pub(crate) fn select_mode() -> &'static str {
         "DHCP Spoof",
         "DoS Attack",
         "Port Scan",
+        "Blackhole Spoof",
     ];
     let mut selected_index = 0;
     let mut list_state = ratatui::widgets::ListState::default();
