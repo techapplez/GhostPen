@@ -1,20 +1,19 @@
 use crossterm::event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode};
 use crossterm::terminal::{EnterAlternateScreen, LeaveAlternateScreen};
-use ratatui::Terminal;
 use ratatui::backend::CrosstermBackend;
 use ratatui::layout::Margin;
 use ratatui::prelude::{Color, Modifier, Style};
 use ratatui::widgets::{Block, Borders, List, ListItem};
+use ratatui::Terminal;
 use std::time::Duration;
+use ratatui::style::Stylize;
 
 pub(crate) fn select_mode() -> &'static str {
     let modes = vec![
-        "ARP Spoof",
+        "ARP Spoof(extremely overpowered in broadcast mode)",
         "DNS Spoof",
         "DHCP Spoof",
-        "DoS Attack",
         "Port Scan",
-        "Blackhole Spoof",
     ];
     let mut selected_index = 0;
     let mut list_state = ratatui::widgets::ListState::default();
@@ -32,7 +31,8 @@ pub(crate) fn select_mode() -> &'static str {
             .draw(|f| {
                 let size = f.area();
                 let block = Block::default()
-                    .title("etterscap - Select Mode")
+                    .title("Welcome to GhostPen, your pentesting toolkit written in rust.")
+                    .fg(Color::Red)
                     .borders(Borders::ALL);
                 f.render_widget(block, size);
                 let list_items: Vec<ListItem> = modes

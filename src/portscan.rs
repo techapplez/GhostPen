@@ -9,7 +9,6 @@ use std::time::{Duration, SystemTime};
 
 struct PortFinding {
     port: u16,
-    service: Option<String>,
     vulnerability_score: u8,
     found_at: SystemTime,
 }
@@ -100,15 +99,6 @@ pub fn scan(ip: IpAddr) {
         let mut findings = Vec::new();
         for addr in scan_result.iter() {
             let port_num = addr.port();
-            let service = match port_num {
-                22 => Some("ssh".into()),
-                80 => Some("http".into()),
-                443 => Some("https".into()),
-                3306 => Some("mysql".into()),
-                3389 => Some("rdp".into()),
-                8123 => Some("Home Assistant".into()),
-                _ => None,
-            };
             let vulnerability_score = match port_num {
                 22 => 5,
                 3306 => 7,
@@ -119,7 +109,6 @@ pub fn scan(ip: IpAddr) {
             };
             findings.push(PortFinding {
                 port: port_num,
-                service,
                 vulnerability_score,
                 found_at: now,
             });

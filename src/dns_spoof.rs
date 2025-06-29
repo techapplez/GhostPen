@@ -1,3 +1,4 @@
+use colored::Colorize;
 use pnet::datalink::{self, Channel::Ethernet, MacAddr};
 use pnet::packet::arp::{ArpHardwareTypes, ArpOperations, MutableArpPacket};
 use pnet::packet::ethernet::{EtherTypes, MutableEthernetPacket};
@@ -10,6 +11,9 @@ use trust_dns_proto::rr::{RData, Record};
 use trust_dns_proto::serialize::binary::{BinDecodable, BinEncodable, BinEncoder};
 
 fn get_interface_input() -> String {
+    for iface in datalink::interfaces() {
+        println!("{}", iface.name.red().bold());
+    }
     print!("Enter interface: ");
     io::stdout().flush().unwrap();
     let mut iface = String::new();
@@ -17,7 +21,7 @@ fn get_interface_input() -> String {
     iface.trim().to_string()
 }
 
-fn get_ip_input(prompt: &str) -> Ipv4Addr {
+fn get_ip(prompt: &str) -> Ipv4Addr {
     print!("{}: ", prompt);
     io::stdout().flush().unwrap();
     let mut ip = String::new();
@@ -62,7 +66,7 @@ pub(crate) fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Starting DNS/ARP spoofer... Press Ctrl+C to stop");
 
     let iface = get_interface_input();
-    let gateway_ip = get_ip_input("Gateway IP");
+    let gateway_ip = get_ip("Gateway IP");
 
     let attacker_mac_bytes = mac_address::mac_address_by_name(&iface)?
         .ok_or("MAC not found")?

@@ -12,6 +12,6 @@ crossterm = "0.29.0"
 myrustscan = "2.4.2"
 tokio = { version = "1", features = ["full"] }
 trust-dns-proto = "0.23.2"
-surge-ping = "0.8.2"
 rand = "0.9.1"
 dhcproto = "0.13.0"
+anyhow = "1.0.98"
