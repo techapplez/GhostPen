@@ -10,6 +10,17 @@ use trust_dns_proto::op::{Message, MessageType};
 use trust_dns_proto::rr::{RData, Record};
 use trust_dns_proto::serialize::binary::{BinDecodable, BinEncodable, BinEncoder};
 
+#[cfg(target_os = "windows")]
+fn enable_ip_forwarding() -> std::io::Result<()> {
+    let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
+    let tcpip = hklm.open_subkey_with_flags(
+        "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters",
+        KEY_WRITE,
+    )?;
+    tcpip.set_value("IPEnableRouter", &1u32)?;
+    Ok(())
+}
+
 fn get_interface_input() -> String {
     for iface in datalink::interfaces() {
         println!("{}", iface.name.red().bold());
