@@ -10,7 +10,7 @@ use mode::select_mode;
 use pnet::datalink::{self};
 use std::io::{self, Write};
 use std::net::Ipv4Addr;
-use std::process::exit;
+use std::process::Command;
 
 fn get_interface_input() -> String {
     println!("{}", "Available interfaces:".green().bold());
@@ -34,59 +34,62 @@ fn ip_input(prompt: &str) -> Ipv4Addr {
 
 fn main() {
     let selected_mode = select_mode();
-    println!(r#"
-                                ]11111111111[                                 
-                           !+0hhhhkhkkhkhhhkkhhO+i                            
-                        "XhhhhhkhdZOZZOOOOZphhhhhhhU:'                        
-                      :XhhhkhkC:             :0khhhhhhn.                      
-                    "rdhkhk}}".                 ."]hhahhd|                     
-                   [mhhhz_^                       .;fhhhhm]                   
-                 ~Lkhkp1`                            Ivahaq[                  
-                !zhhhJ>                               lXaaha)                 
-               Ichhhx,                                  (aaaa1                
-              ^/hkh/       .:ll:.           .llll:       |aaaa}}               
-              ]hkhq{{     .XaaahaaI         ;aaaoooU.      taaa1.              
-             !Uhhht      vhaaoaaaai.     'uaaooooooY      toooa}}              
-             ?hhh0?     xkaoaoaoaaa"     ^aaaoooo*ohx      fooo[              
-             ]hhhj      <Qaoaaoaaa|'     'uhhaaooooC;      joo*[              
-             ?hhaj       ]mooooaan^       `xhaooooq[       jo*of"             
-             ]aaaj         /XXX]`           ']zXf          j*o*Yl             
-             ]aaar                                         j**oC!             
-             ]aaor                  'lmt'.                 j****]             
-             ?aaor                 JmZZZZJ.                j*o*o[             
-             ]aaoj                LZZ000Q0J                j****]             
-             ]aaor                COZQQQQQU                jo*o*]             
-             ]hhhj                 fQCLCC[                 foooo[             
-             ?khkj                   )|>                   faaaa?             
-             ?kkkf                                         tkhhd-             
-             -dpdt                  ''''''                 tkkkcl             
-             -qqq/                  tjjjft                 |pppvI             
-             +ZZO(                 zZmZZmQ                 (mmwnI             
-             +QQL)                 Zdddddw                 1Q0OU>             
-            .~JCC{{          +uX+'  ~+~+}}]; .>fn-:         {{QQQQ+             
-            "{{YYY}}         .tXzz,  <++~}}[; "zXzz/         [YUUU<             
-            !vvvx+         `tczc:  <+++}}[I "cccc|          }}zzz?`            
-           !uvvu[          >rzcc,  ~~+~}}[> "uccc|          Itccc<.           
-          Irxxx[           >jvvc,  ~+++}}[< `[vvv(           .}}uuuxI          
- !(|}}[?]1)fjjrr/>          )uuuu,  <~+~}}[l '[uuu/;          _jxxxxx/(}}((jr(. 
- I)(((|//tttfffjt-"      ,)nnnuu,  <+++}}}}- "nunnnj~      .!|rrjrjrjrjjjjjji  
-  i1)(|(/|1l ,[fjjj1___-|xnnnnnnx" <~+~}}[-'[nnnnxxxj1__+{{fjrjf]~+(jjfffft~.  
-      ^`      :}}ffjjjrrxxxx1?[jnnu{{++++}}}}nnnxf]1xxrrrjjjjjj{{;     >_-,      
-                 l{{(fjj|1-"   ?jxxx++~+}}[}}{{xxj]   :}}1/jfj|{{<'                 
-                                {{fr_++~}}}}f1                                 
-                                  .l~++}}}}]                                   
-                                   :~+~}}}}]                                   
-                                   :~++}}[]                                   
-                                   ,~+~}}}}]                                   
-                                   "~++}}}}]                                   
-                                   ^<<<?-?+                                   
-                                    "llll;                                    
-                                     ;lIl                                     
+    println!(
+        r#"
+                                ]11111111111[
+                           !+0hhhhkhkkhkhhhkkhhO+i
+                        "XhhhhhkhdZOZZOOOOZphhhhhhhU:'
+                      :XhhhkhkC:             :0khhhhhhn.
+                    "rdhkhk}}".                 ."]hhahhd|
+                   [mhhhz_^                       .;fhhhhm]
+                 ~Lkhkp1`                            Ivahaq[
+                !zhhhJ>                               lXaaha)
+               Ichhhx,                                  (aaaa1
+              ^/hkh/       .:ll:.           .llll:       |aaaa}}
+              ]hkhq{{     .XaaahaaI         ;aaaoooU.      taaa1.
+             !Uhhht      vhaaoaaaai.     'uaaooooooY      toooa}}
+             ?hhh0?     xkaoaoaoaaa"     ^aaaoooo*ohx      fooo[
+             ]hhhj      <Qaoaaoaaa|'     'uhhaaooooC;      joo*[
+             ?hhaj       ]mooooaan^       `xhaooooq[       jo*of"
+             ]aaaj         /XXX]`           ']zXf          j*o*Yl
+             ]aaar                                         j**oC!
+             ]aaor                  'lmt'.                 j****]
+             ?aaor                 JmZZZZJ.                j*o*o[
+             ]aaoj                LZZ000Q0J                j****]
+             ]aaor                COZQQQQQU                jo*o*]
+             ]hhhj                 fQCLCC[                 foooo[
+             ?khkj                   )|>                   faaaa?
+             ?kkkf                                         tkhhd-
+             -dpdt                  ''''''                 tkkkcl
+             -qqq/                  tjjjft                 |pppvI
+             +ZZO(                 zZmZZmQ                 (mmwnI
+             +QQL)                 Zdddddw                 1Q0OU>
+            .~JCC{{          +uX+'  ~+~+}}]; .>fn-:         {{QQQQ+
+            "{{YYY}}         .tXzz,  <++~}}[; "zXzz/         [YUUU<
+            !vvvx+         `tczc:  <+++}}[I "cccc|          }}zzz?`
+           !uvvu[          >rzcc,  ~~+~}}[> "uccc|          Itccc<.
+          Irxxx[           >jvvc,  ~+++}}[< `[vvv(           .}}uuuxI
+ !(|}}[?]1)fjjrr/>          )uuuu,  <~+~}}[l '[uuu/;          _jxxxxx/(}}((jr(.
+ I)(((|//tttfffjt-"      ,)nnnuu,  <+++}}}}- "nunnnj~      .!|rrjrjrjrjjjjjji
+  i1)(|(/|1l ,[fjjj1___-|xnnnnnnx" <~+~}}[-'[nnnnxxxj1__+{{fjrjf]~+(jjfffft~.
+      ^`      :}}ffjjjrrxxxx1?[jnnu{{++++}}}}nnnxf]1xxrrrjjjjjj{{;     >_-,
+                 l{{(fjj|1-"   ?jxxx++~+}}[}}{{xxj]   :}}1/jfj|{{<'
+                                {{fr_++~}}}}f1
+                                  .l~++}}}}]
+                                   :~+~}}}}]
+                                   :~++}}[]
+                                   ,~+~}}}}]
+                                   "~++}}}}]
+                                   ^<<<?-?+
+                                    "llll;
+                                     ;lIl
                                       Il
+
                                   ^^^^^^^^^^^
                                 This is Ghostyyyyy!
                                 Funfact: He likes to draw :))
-    "#);
+    "#
+    );
     let warnings = [
         "THIS TOOL IS ONLY FOR PENETRATION TESTING AND NOT FOR ILLEGAL PURPOSES",
         "ABUSE IS GOING TO BE PUNISHED!!! IDK BY WHO...",
@@ -111,14 +114,47 @@ fn main() {
             portscan::scan(ip.trim().parse().unwrap());
         }
         "DNS Spoof" => {
+            if cfg!(any(target_os = "linux", target_os = "macos")) {
+                if whoami::username().unwrap().to_string() != "root" {
+                    println!("This operation requires root privileges. Re-running with sudo...");
+                    Command::new("sudo")
+                        .arg(std::env::current_exe().unwrap())
+                        .args(std::env::args().skip(1))
+                        .status()
+                        .expect("failed to execute sudo");
+                }
+            }
             dns_spoof::main().expect("Codeh panicked");
             main()
         }
         "DHCP Spoof" => {
-            dhcp_spoof::main().expect("ohoh nod gud");
-            main();
+
+            if cfg!(any(target_os = "linux", target_os = "macos")) {
+                if whoami::username().unwrap().to_string() != "root" {
+                    println!("This operation requires root privileges. Re-running with sudo...");
+                    Command::new("sudo")
+                        .arg(std::env::current_exe().unwrap())
+                        .args(std::env::args().skip(1))
+                        .status()
+                        .expect("failed to execute sudo");
+                }
+            }
+            dhcp_spoof::main().expect("Codeh panicked");
         }
-        "ARP Spoof(extremely overpowered in broadcast mode)" => arp_spoof::main(),
+        "ARP Spoof(extremely overpowered in broadcast mode)" => {
+            if cfg!(any(target_os = "linux", target_os = "macos")) {
+                if whoami::username().unwrap().to_string() != "root" {
+                    println!("This operation requires root privileges. Re-running with sudo...");
+                    Command::new("sudo")
+                        .arg(std::env::current_exe().unwrap())
+                        .args(std::env::args().skip(1))
+                        .status()
+                        .expect("failed to execute sudo");
+                }
+            }
+            arp_spoof::main();
+
+        }
         _ => {
             println!("Unknown mode selected");
         }

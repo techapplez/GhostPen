@@ -1,12 +1,12 @@
 use crossterm::event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode};
 use crossterm::terminal::{EnterAlternateScreen, LeaveAlternateScreen};
+use ratatui::Terminal;
 use ratatui::backend::CrosstermBackend;
 use ratatui::layout::Margin;
 use ratatui::prelude::{Color, Modifier, Style};
-use ratatui::widgets::{Block, Borders, List, ListItem};
-use ratatui::Terminal;
-use std::time::Duration;
 use ratatui::style::Stylize;
+use ratatui::widgets::{Block, Borders, List, ListItem};
+use std::time::Duration;
 
 pub(crate) fn select_mode() -> &'static str {
     let modes = vec![

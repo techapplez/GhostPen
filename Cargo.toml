@@ -1,5 +1,5 @@
 [package]
-name = "etterscap"
+name = "ghostpen"
 version = "0.1.0"
 edition = "2024"
 
@@ -15,3 +15,4 @@ trust-dns-proto = "0.23.2"
 rand = "0.9.1"
 dhcproto = "0.13.0"
 anyhow = "1.0.98"
+whoami = "2.0.0-pre.2"

@@ -22,15 +22,17 @@ pub(crate) fn find_mac(_interface: &str, ip: &str, label: &str) -> Option<MacAdd
     use std::process::Command;
     use std::str::FromStr;
 
-    let output = Command::new("arp")
-        .arg("-a")
-        .output()
-        .ok()?;
+    let output = Command::new("arp").arg("-a").output().ok()?;
     let stdout = String::from_utf8_lossy(&output.stdout);
 
     for line in stdout.lines() {
         let trimmed = line.trim_start();
-        if !trimmed.chars().next().map(|c| c.is_digit(10)).unwrap_or(false) {
+        if !trimmed
+            .chars()
+            .next()
+            .map(|c| c.is_digit(10))
+            .unwrap_or(false)
+        {
             continue;
         }
         if trimmed.starts_with(ip) {
@@ -50,10 +52,7 @@ pub(crate) fn find_mac(_interface: &str, ip: &str, label: &str) -> Option<MacAdd
     use std::process::Command;
     use std::str::FromStr;
 
-    let output = Command::new("arp")
-        .arg("-a")
-        .output()
-        .ok()?;
+    let output = Command::new("arp").arg("-a").output().ok()?;
     let stdout = String::from_utf8_lossy(&output.stdout);
 
     for line in stdout.lines() {

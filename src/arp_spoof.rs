@@ -3,7 +3,7 @@ use pnet::datalink::{self, Channel::Ethernet, MacAddr};
 use pnet::packet::arp::{ArpHardwareTypes, ArpOperations, MutableArpPacket};
 use pnet::packet::ethernet::{EtherTypes, EthernetPacket, MutableEthernetPacket};
 use pnet::packet::{MutablePacket, Packet};
-use std::io::{self, stdin, Write};
+use std::io::{self, Write, stdin};
 use std::net::Ipv4Addr;
 use std::str::FromStr;
 use std::thread;
@@ -24,14 +24,13 @@ pub(crate) fn main() {
 
     let iface = get_interface_input();
 
-
     let victim_ip_addr = if mode == "targeted" {
         Some(ip_input("Victim IP"))
     } else {
         None
     };
     let gateway_ip_addr = Ipv4Addr::from_str(&gateway_ip).unwrap();
-    
+
     let attacker_mac = mac_address::mac_address_by_name(&iface)
         .unwrap()
         .unwrap()
@@ -64,7 +63,10 @@ pub(crate) fn main() {
                     match rx.next() {
                         Ok(packet) => {
                             if let Some(ethernet) = EthernetPacket::new(packet) {
-                                println!("{} thinks i am da router haha hehe", ethernet.get_source());
+                                println!(
+                                    "{} thinks i am da router haha hehe",
+                                    ethernet.get_source()
+                                );
                             }
                         }
                         Err(_) => {}

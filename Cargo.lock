@@ -682,23 +682,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "etterscap"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "colored",
- "crossterm 0.29.0",
- "dhcproto",
- "mac_address",
- "myrustscan",
- "pnet",
- "rand 0.9.1",
- "ratatui",
- "tokio",
- "trust-dns-proto",
-]
-
-[[package]]
 name = "event-listener"
 version = "2.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -881,6 +864,24 @@ dependencies = [
  "libc",
  "r-efi",
  "wasi 0.14.2+wasi-0.2.4",
+]
+
+[[package]]
+name = "ghostpen"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "colored",
+ "crossterm 0.29.0",
+ "dhcproto",
+ "mac_address",
+ "myrustscan",
+ "pnet",
+ "rand 0.9.1",
+ "ratatui",
+ "tokio",
+ "trust-dns-proto",
+ "whoami",
 ]
 
 [[package]]
@@ -2472,6 +2473,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "wasite"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b8dad83b4f25e74f184f64c43b150b91efe7647395b42289f38e50566d82855b"
+
+[[package]]
 name = "wasm-bindgen"
 version = "0.2.100"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2550,6 +2557,17 @@ checksum = "33b6dd2ef9186f1f2072e409e99cd22a975331a6b3591b12c764e0e55c60d5d2"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
+]
+
+[[package]]
+name = "whoami"
+version = "2.0.0-pre.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "50ef95b8ffd336004c7be24653724c21375d25cf23da62985c835346e59b62fb"
+dependencies = [
+ "redox_syscall",
+ "wasite",
+ "web-sys",
 ]
 
 [[package]]
