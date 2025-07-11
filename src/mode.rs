@@ -11,7 +11,7 @@ use std::time::Duration;
 pub(crate) fn select_mode() -> &'static str {
     let modes = vec![
         "ARP Spoof(extremely overpowered in broadcast mode(then preforms a mitm attack to EVERYONE in the network))",
-        "DNS Spoof(only works under linux(yet) and u have to disable automatic ip configuration and have to manually configure ur ip. Make sure ip forwarding is enabled)",
+        "DNS Spoof(u have to disable automatic ip configuration and have to manually configure ur ip address and on windows idk how to do it)",
         "DHCP Spoof",
         "Port Scan",
     ];

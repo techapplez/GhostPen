@@ -113,7 +113,7 @@ fn main() {
             io::stdin().read_line(&mut ip).expect("Failed to read line");
             portscan::scan(ip.trim().parse().unwrap());
         }
-        "DNS Spoof(only works under linux(yet) and u have to disable automatic ip configuration and have to manually configure ur ip. Make sure ip forwarding is enabled)" => {
+        "DNS Spoof(u have to disable automatic ip configuration and have to manually configure ur ip address and on windows idk how to do it)" => {
             if cfg!(any(target_os = "linux", target_os = "macos")) {
                 if whoami::username().unwrap().to_string() != "root" {
                     println!("This operation requires root privileges. Re-running with sudo...");

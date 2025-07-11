@@ -17,3 +17,6 @@ dhcproto = "0.13.0"
 anyhow = "1.0.98"
 whoami = "2.0.0-pre.2"
 hickory-dns = "0.25.2"
+clap = "4.5.40"
+[target.'cfg(windows)'.dependencies]
+winreg = "0.55.0"
