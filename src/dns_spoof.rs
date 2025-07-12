@@ -12,6 +12,7 @@ use trust_dns_proto::op::{Message, MessageType};
 use trust_dns_proto::rr::{RData, Record, Name};
 use trust_dns_proto::rr::rdata::a::A;
 use trust_dns_proto::serialize::binary::{BinDecodable, BinEncodable, BinEncoder};
+use dns_lookup::lookup_host;
 
 #[cfg(target_os = "windows")]
 fn enable_ip_forwarding() -> std::io::Result<()> {
@@ -288,6 +289,9 @@ pub(crate) fn main() -> Result<(), Box<dyn std::error::Error>> {
         victim_ip,
         gateway_ip,
     );
+    let success = if mode == Mode::Domain{
+        println!("{:?}", lookup_host(domain))
+    }
     println!("DNS spoofer running on port 53");
     println!("Spoofing mode: {:?}", mode);
     if let Some(ref domain) = domain {
