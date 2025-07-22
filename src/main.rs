@@ -125,7 +125,6 @@ fn main() {
         //    }
         //}
         "DHCP Spoof" => {
-
             if cfg!(any(target_os = "linux", target_os = "macos")) {
                 if whoami::username().unwrap().to_string() != "root" {
                     println!("This operation requires root privileges. Re-running with sudo...");
@@ -138,7 +137,8 @@ fn main() {
             }
             dhcp_spoof::main().expect("Codeh panicked");
         }
-        "ARP Spoof(extremely overpowered in broadcast mode(then preforms a mitm attack to EVERYONE in the network))" => {
+        "ARP Spoof(extremely overpowered in broadcast mode(then preforms a mitm attack to EVERYONE in the network))" =>
+        {
             if cfg!(any(target_os = "linux", target_os = "macos")) {
                 if whoami::username().unwrap().to_string() != "root" {
                     println!("This operation requires root privileges. Re-running with sudo...");
@@ -150,7 +150,6 @@ fn main() {
                 }
             }
             arp_spoof::main();
-
         }
         _ => {
             println!("Unknown mode selected");
