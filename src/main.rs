@@ -1,6 +1,5 @@
 mod arp_spoof;
 mod dhcp_spoof;
-mod dns_spoof;
 mod mac;
 mod mode;
 mod portscan;
@@ -113,20 +112,18 @@ fn main() {
             io::stdin().read_line(&mut ip).expect("Failed to read line");
             portscan::scan(ip.trim().parse().unwrap());
         }
-        "DNS Spoof(u have to disable automatic ip configuration and have to manually configure ur ip address and on windows idk how to do it)" => {
-            if cfg!(any(target_os = "linux", target_os = "macos")) {
-                if whoami::username().unwrap().to_string() != "root" {
-                    println!("This operation requires root privileges. Re-running with sudo...");
-                    Command::new("sudo")
-                        .arg(std::env::current_exe().unwrap())
-                        .args(std::env::args().skip(1))
-                        .status()
-                        .expect("failed to execute sudo");
-                }
-            }
-            dns_spoof::main().expect("Codeh panicked");
-            main()
-        }
+        //"DNS Spoof(u have to disable automatic ip configuration and have to manually configure ur ip address and on windows idk how to do it)" => {
+        //    if cfg!(any(target_os = "linux", target_os = "macos")) {
+        //        if whoami::username().unwrap().to_string() != "root" {
+        //            println!("This operation requires root privileges. Re-running with sudo...");
+        //            Command::new("sudo")
+        //                .arg(std::env::current_exe().unwrap())
+        //                .args(std::env::args().skip(1))
+        //                .status()
+        //                .expect("failed to execute sudo");
+        //        }
+        //    }
+        //}
         "DHCP Spoof" => {
 
             if cfg!(any(target_os = "linux", target_os = "macos")) {

