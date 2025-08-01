@@ -19,5 +19,6 @@ whoami = "2.0.0-pre.2"
 hickory-dns = "0.25.2"
 clap = "4.5.40"
 dns-lookup = "2.0.4"
+regex = "1.11.1"
 [target.'cfg(windows)'.dependencies]
 winreg = "0.55.0"

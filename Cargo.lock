@@ -985,6 +985,7 @@ dependencies = [
  "pnet",
  "rand 0.9.1",
  "ratatui",
+ "regex",
  "tokio",
  "trust-dns-proto",
  "whoami",

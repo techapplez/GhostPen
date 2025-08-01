@@ -1,19 +1,30 @@
 use pnet::datalink::MacAddr;
+use regex::Regex;
 
 #[cfg(target_os = "linux")]
-pub(crate) fn find_mac(interface: &str, ip: &str, label: &str) -> Option<MacAddr> {
-    use std::fs;
-    use std::str::FromStr;
+use std::process::Command;
+use std::str::FromStr;
 
-    let arp_table = fs::read_to_string("/proc/net/arp").ok()?;
-    for line in arp_table.lines().skip(1) {
-        let fields: Vec<&str> = line.split_whitespace().collect();
-        if fields.len() >= 6 && fields[0] == ip && fields[5] == interface {
-            let mac_str = fields[3];
-            println!("{} MAC (from ARP cache): {}", label, mac_str);
-            return MacAddr::from_str(mac_str).ok();
+pub(crate) fn find_mac(_interface: &str, ip: &str, label: &str) -> Option<MacAddr> {
+    let output = Command::new("arping").arg("-f").arg(ip).output().ok()?;
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let mac_regex = Regex::new(r"\[([0-9a-fA-F]{2}(?::[0-9a-fA-F]{2}){5})\]").ok()?;
+
+    for line in stdout.lines() {
+        if line.contains("Unicast reply from") {
+            if let Some(caps) = mac_regex.captures(line) {
+                if let Some(mac) = caps.get(1) {
+                    let mac_str = mac.as_str();
+                    println!("{} MAC (from arping): {}", label, mac_str);
+                    let mac_str = MacAddr::from_str(mac_str).ok();
+                    return mac_str;
+                }
+            }
         }
     }
+
+    eprintln!("❌ No MAC found for {} via arping", ip);
     None
 }
 
